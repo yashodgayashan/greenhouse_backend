@@ -1,6 +1,7 @@
-package com.teamgreen.greenhouse.nodes;
+package com.teamgreen.greenhouse.nodeSensors;
 
-import com.teamgreen.greenhouse.dao.Node;
+
+import com.teamgreen.greenhouse.dao.NodeSensor;
 import com.teamgreen.greenhouse.exceptions.CustomException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,29 +17,29 @@ import static com.teamgreen.greenhouse.constants.Constants.*;
 import static com.teamgreen.greenhouse.constants.Constants.INTERNAL_SERVER_ERROR_MSG;
 
 @RestController
-@RequestMapping("/nodes")
-public class NodeController {
+@RequestMapping("/node-sensors")
+public class NodeSensorController {
 
     @Autowired
     JdbcTemplate jdbc;
 
-    private static final Logger logger = LoggerFactory.getLogger(NodeController.class);
-    private NodeDbHandler handler;
+    private static final Logger logger = LoggerFactory.getLogger(NodeSensorController.class);
+    private NodeSensorDbHandler handler;
 
     @PostConstruct
     void setJdbcHandlers() {
-        handler = new NodeDbHandler(this.jdbc);
+        handler = new NodeSensorDbHandler(this.jdbc);
     }
 
     @GetMapping("")
-    public ResponseEntity getNodes() {
-        return new ResponseEntity(handler.getNodes(), HttpStatus.OK);
+    public ResponseEntity getNodeSensors() {
+        return new ResponseEntity(handler.getNodeSensors(), HttpStatus.OK);
     }
 
-    @GetMapping("/{node-id}")
-    public ResponseEntity getNode(@PathVariable("node-id") long nodeId) {
+    @GetMapping("/{node-sensor-id}")
+    public ResponseEntity getNodeSensor(@PathVariable("node-sensor-id") long nodeSensorId) {
         try {
-            return new ResponseEntity(handler.getNode(nodeId), HttpStatus.OK);
+            return new ResponseEntity(handler.getNodeSensor(nodeSensorId), HttpStatus.OK);
         } catch (CustomException e) {
             logger.error(e.getMessage());
             return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -46,34 +47,34 @@ public class NodeController {
     }
 
     @PostMapping
-    public ResponseEntity createNode(@RequestBody Node node) {
-        int status = handler.addNode(node);
+    public ResponseEntity createNodeSensor(@RequestBody NodeSensor nodeSensor) {
+        int status = handler.addNodeSensor(nodeSensor);
         if (status > 0) {
             return new ResponseEntity<>(SUCCESSFULLY_INSERTED, HttpStatus.OK);
         } else {
-            logger.error("inserted node failed, {}", node);
+            logger.error("inserted nodeSensor failed, {}", nodeSensor);
             return new ResponseEntity<>(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PutMapping("/{node-id}")
-    public ResponseEntity updateSensor(@PathVariable("node-id") long nodeId, @RequestBody Node node) {
-        int status = handler.updateNode(nodeId, node);
+    @PutMapping("/{node-sensor-id}")
+    public ResponseEntity updateNodeSensor(@PathVariable("node-sensor-id") long nodeSensorId, @RequestBody NodeSensor nodeSensor) {
+        int status = handler.updateNodeSensor(nodeSensorId, nodeSensor);
         if (status > 0) {
             return new ResponseEntity<>(SUCCESSFULLY_UPDATED, HttpStatus.OK);
         } else {
-            logger.error("updating node failed, {}", node);
+            logger.error("updating nodeSensor failed, {}", nodeSensor);
             return new ResponseEntity<>(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @DeleteMapping("/{node-id}")
-    public ResponseEntity deleteSensor(@PathVariable("node-id") long nodeId) {
-        int status = handler.deleteNode(nodeId);
+    @DeleteMapping("/{node-sensor-id}")
+    public ResponseEntity deleteNodeSensor(@PathVariable("node-sensor-id") long nodeSensorId) {
+        int status = handler.deleteNodeSensor(nodeSensorId);
         if (status > 0) {
             return new ResponseEntity<>(SUCCESSFULLY_REMOVED, HttpStatus.OK);
         } else {
-            logger.error("updating node failed, {}", nodeId);
+            logger.error("updating nodeSensor failed, {}", nodeSensorId);
             return new ResponseEntity<>(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
