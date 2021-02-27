@@ -68,10 +68,9 @@ CREATE TABLE `node_sensors` (
 );
 
 
-CREATE TABLE `node_sensors` (
+CREATE TABLE `data` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT,
     `node_sensor_id` bigint(20) DEFAULT NULL,
-    `min_value` double DEFAULT NULL,
     `data` double DEFAULT NULL,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
