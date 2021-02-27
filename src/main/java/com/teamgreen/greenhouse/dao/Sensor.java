@@ -31,7 +31,21 @@ public class Sensor {
 
     public void setDescription(String description) { this.description = description; }
 
-    public DataTypes getDataType() { return dataType; }
+    public String getDataType() {
+        if(this.dataType == DataTypes.DOUBLE) {
+            return "Double";
+        } else {
+            return "Integer";
+        }
+    }
+
+    public void setDataType(String dataType) {
+        if (dataType.equals("Double")) {
+            this.dataType = DataTypes.DOUBLE;
+        } else {
+            this.dataType = DataTypes.INTEGER;
+        }
+    }
 
     public void setDataType(DataTypes dataType) { this.dataType = dataType; }
 

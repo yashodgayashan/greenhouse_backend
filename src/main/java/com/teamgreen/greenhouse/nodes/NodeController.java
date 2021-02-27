@@ -60,7 +60,7 @@ public class NodeController {
     }
 
     @PutMapping("/{node-id}")
-    public ResponseEntity updateLocation(@PathVariable("node-id") long nodeId, @RequestBody Node node) {
+    public ResponseEntity updateSensor(@PathVariable("node-id") long nodeId, @RequestBody Node node) {
         int status = handler.updateNode(nodeId, node);
         if (status > 0) {
             return new ResponseEntity<>(SUCCESSFULLY_UPDATED, HttpStatus.OK);
@@ -71,7 +71,7 @@ public class NodeController {
     }
 
     @DeleteMapping("/{node-id}")
-    public ResponseEntity deleteLocation(@PathVariable("node-id") long nodeId) {
+    public ResponseEntity deleteSensor(@PathVariable("node-id") long nodeId) {
         int status = handler.deleteNode(nodeId);
         if (status > 0) {
             return new ResponseEntity<>(SUCCESSFULLY_REMOVED, HttpStatus.OK);
