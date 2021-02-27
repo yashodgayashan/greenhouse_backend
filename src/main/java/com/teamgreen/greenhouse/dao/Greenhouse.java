@@ -13,6 +13,12 @@ public class Greenhouse {
     private Timestamp modifiedAt;
     private Timestamp createdAt;
 
+    public void setId(long id) { this.id = id; }
+
+    public void setModifiedAt(Timestamp modifiedAt) { this.modifiedAt = modifiedAt; }
+
+    public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
+
     public long getId() { return id; }
 
     public String getName() { return name; }
