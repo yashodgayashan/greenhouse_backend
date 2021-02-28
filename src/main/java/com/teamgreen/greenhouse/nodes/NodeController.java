@@ -1,16 +1,22 @@
 package com.teamgreen.greenhouse.nodes;
 
+import com.teamgreen.greenhouse.dao.Data;
 import com.teamgreen.greenhouse.dao.Node;
+import com.teamgreen.greenhouse.data.DataDbHandler;
 import com.teamgreen.greenhouse.exceptions.CustomException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.w3c.dom.ls.LSOutput;
 
 import javax.annotation.PostConstruct;
+
+import java.util.List;
 
 import static com.teamgreen.greenhouse.constants.Constants.*;
 import static com.teamgreen.greenhouse.constants.Constants.INTERNAL_SERVER_ERROR_MSG;
@@ -24,10 +30,12 @@ public class NodeController {
 
     private static final Logger logger = LoggerFactory.getLogger(NodeController.class);
     private NodeDbHandler handler;
+    private DataDbHandler dataDbHandler;
 
     @PostConstruct
     void setJdbcHandlers() {
         handler = new NodeDbHandler(this.jdbc);
+        dataDbHandler = new DataDbHandler(this.jdbc);
     }
 
     @GetMapping("")
@@ -54,6 +62,12 @@ public class NodeController {
             logger.error("inserted node failed, {}", node);
             return new ResponseEntity<>(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping("/{node-id}")
+    public ResponseEntity postData(@RequestBody List<Data> data) {
+        data.stream().forEach(dataVal -> dataDbHandler.addData(dataVal));
+        return new ResponseEntity<>(SUCCESSFULLY_INSERTED, HttpStatus.OK);
     }
 
     @PutMapping("/{node-id}")

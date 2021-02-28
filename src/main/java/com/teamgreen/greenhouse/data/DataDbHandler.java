@@ -31,7 +31,7 @@ public class DataDbHandler extends DbHandler {
         }
     }
 
-    int addData(Data data)  {
+    public int addData(Data data)  {
         final String insertQuery =
                 "INSERT INTO " + DATA_TABLE + " ("  + withComma(DATA_NODE_SENSOR_ID)
                         + encapFieldWithBackTick(DATA_DATA) + ") VALUES "

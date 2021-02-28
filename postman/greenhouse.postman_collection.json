@@ -1,0 +1,815 @@
+{
+	"info": {
+		"_postman_id": "6a697ee5-87cb-43d4-a3f2-7496966971a3",
+		"name": "greenhouse",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get locations",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0:9080/locations",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"locations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get location by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0:9080/locations/2",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"locations",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create location",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Name\": \"Bandarawela\",\n    \"Location\": \"Bandarawela\",\n    \"ImageURL\": null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:9080/locations",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"locations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update Location by id",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Bandarawela\",\n    \"location\": \"Bandarawela\",\n    \"imageURL\": null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:9080/locations/2",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"locations",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete locations",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0:9080/locations/1",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"locations",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get greenhouses",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0:9080/greenhouses",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"greenhouses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get greenhouse by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0:9080/greenhouses/1",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"greenhouses",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create greenhouse",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Cucumber\",\n    \"location\":\"Badulla\",\n    \"locationId\":2,\n    \"imageURL\":null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:9080/greenhouses",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"greenhouses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update greenhouse",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Cucumber\",\n    \"location\":\"Badulla\",\n    \"locationId\":2,\n    \"imageURL\":null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:9080/greenhouses/1",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"greenhouses",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete greenhouses",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0:9080/greenhouses/2",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"greenhouses",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get nodes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0:9080/nodes",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"nodes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get node by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0:9080/nodes/1",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"nodes",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create node",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"greenhouseId\":2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:9080/nodes",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"nodes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update node",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"greenhouseId\":3\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:9080/nodes/2",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"nodes",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete node",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"greenhouseId\":3\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:9080/nodes/2",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"nodes",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get sensors",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0:9080/sensors",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"sensors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get sensor by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0:9080/sensors/1",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"sensors",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create sensor",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Humidity\",\n    \"description\":\"Check humidity\",\n    \"dataType\":\"Double\",\n    \"minValue\": 12.0,\n    \"maxValue\": 34.0,\n    \"technology\": null,\n    \"workingVoltage\": 3.3,\n    \"dimensions\":\"3by3\",\n    \"specialFacts\":\"None\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:9080/sensors",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"sensors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update sensor",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Tempurature\",\n    \"description\":\"Check humidity\",\n    \"dataType\":\"Double\",\n    \"minValue\": 12.0,\n    \"maxValue\": 34.0,\n    \"technology\": null,\n    \"workingVoltage\": 3.3,\n    \"dimensions\":\"3by3\",\n    \"specialFacts\":\"None\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:9080/sensors/2",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"sensors",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete sensor",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Tempurature\",\n    \"description\":\"Check humidity\",\n    \"dataType\":\"Double\",\n    \"minValue\": 12.0,\n    \"maxValue\": 34.0,\n    \"technology\": null,\n    \"workingVoltage\": 3.3,\n    \"dimensions\":\"3by3\",\n    \"specialFacts\":\"None\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:9080/sensors/2",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"sensors",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get node sensors",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Humidity\",\n    \"description\":\"Check humidity\",\n    \"dataType\":\"Double\",\n    \"minValue\": 12.0,\n    \"maxValue\": 34.0,\n    \"technology\": null,\n    \"workingVoltage\": 3.3,\n    \"dimensions\":\"3by3\",\n    \"specialFacts\":\"None\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:9080/node-sensors",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"node-sensors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get node sensor by id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Humidity\",\n    \"description\":\"Check humidity\",\n    \"dataType\":\"Double\",\n    \"minValue\": 12.0,\n    \"maxValue\": 34.0,\n    \"technology\": null,\n    \"workingVoltage\": 3.3,\n    \"dimensions\":\"3by3\",\n    \"specialFacts\":\"None\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:9080/node-sensors/1",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"node-sensors",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create node sensor",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nodeId\":1,\n    \"sensorId\":1,\n    \"minValue\": 12.0,\n    \"maxValue\": 34.0\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:9080/node-sensors",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"node-sensors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update node sensor",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nodeId\":1,\n    \"sensorId\":1,\n    \"minValue\": 12.2,\n    \"maxValue\": 34.0\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:9080/node-sensors/1",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"node-sensors",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete node sensor by id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Humidity\",\n    \"description\":\"Check humidity\",\n    \"dataType\":\"Double\",\n    \"minValue\": 12.0,\n    \"maxValue\": 34.0,\n    \"technology\": null,\n    \"workingVoltage\": 3.3,\n    \"dimensions\":\"3by3\",\n    \"specialFacts\":\"None\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:9080/node-sensors/1",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"node-sensors",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get data",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Humidity\",\n    \"description\":\"Check humidity\",\n    \"dataType\":\"Double\",\n    \"minValue\": 12.0,\n    \"maxValue\": 34.0,\n    \"technology\": null,\n    \"workingVoltage\": 3.3,\n    \"dimensions\":\"3by3\",\n    \"specialFacts\":\"None\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:9080/data",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"data"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get data by id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Humidity\",\n    \"description\":\"Check humidity\",\n    \"dataType\":\"Double\",\n    \"minValue\": 12.0,\n    \"maxValue\": 34.0,\n    \"technology\": null,\n    \"workingVoltage\": 3.3,\n    \"dimensions\":\"3by3\",\n    \"specialFacts\":\"None\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:9080/data/1",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"data",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create data",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nodeSensorId\":1,\n    \"data\":23.45\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:9080/data",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "9080",
+					"path": [
+						"data"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
