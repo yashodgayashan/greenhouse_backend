@@ -32,7 +32,7 @@ CREATE TABLE `nodes` (
     `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`location_id`) REFERENCES greenhouses(`id`)
+    FOREIGN KEY (`greenhouse_id`) REFERENCES greenhouses(`id`)
 );
 
 CREATE TABLE `sensors` (
