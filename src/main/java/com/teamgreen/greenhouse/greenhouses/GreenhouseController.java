@@ -1,6 +1,9 @@
 package com.teamgreen.greenhouse.greenhouses;
 
 import com.teamgreen.greenhouse.dao.Greenhouse;
+import com.teamgreen.greenhouse.dao.Location;
+import com.teamgreen.greenhouse.dao.search.dao.GreenhouseSearchDao;
+import com.teamgreen.greenhouse.dao.search.dao.LocationSearchDao;
 import com.teamgreen.greenhouse.exceptions.CustomException;
 import com.teamgreen.greenhouse.exceptions.MysqlHandlerException;
 import com.teamgreen.greenhouse.utils.DbUtils;
@@ -14,6 +17,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+
+import java.util.List;
 
 import static com.teamgreen.greenhouse.constants.Constants.*;
 import static com.teamgreen.greenhouse.constants.Constants.INTERNAL_SERVER_ERROR_MSG;
@@ -93,4 +98,16 @@ public class GreenhouseController {
         }
     }
 
+    @PostMapping("/search")
+    public ResponseEntity searchLocations(@RequestBody GreenhouseSearchDao searchDao) {
+        List<Greenhouse> greenhouses;
+        try {
+            greenhouses = handler.searchGreenhouses(searchDao);
+        } catch (CustomException e) {
+            logger.error("error occurred while searching splits\n" + e.getMessage(), e);
+            return new ResponseEntity<>(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(greenhouses, HttpStatus.OK);
+
+    }
 }

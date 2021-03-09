@@ -60,7 +60,6 @@ public class LocationDbHandler extends DbHandler {
         return this.jdbcTemplate().update(deleteQuery, 1, id);
     }
 
-
     List<Location> searchLocations(LocationSearchDao searchDao) throws CustomException {
         return this.namedJdbcTemplate().query(
                 searchDao.query(true), searchDao.namedParameterMap(), new LocationMapper());

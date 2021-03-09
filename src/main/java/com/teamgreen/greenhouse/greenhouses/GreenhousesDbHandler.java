@@ -1,7 +1,11 @@
 package com.teamgreen.greenhouse.greenhouses;
 
 import com.teamgreen.greenhouse.dao.Greenhouse;
+import com.teamgreen.greenhouse.dao.Location;
 import com.teamgreen.greenhouse.dao.mappers.GreenhouseMapper;
+import com.teamgreen.greenhouse.dao.mappers.LocationMapper;
+import com.teamgreen.greenhouse.dao.search.dao.GreenhouseSearchDao;
+import com.teamgreen.greenhouse.dao.search.dao.LocationSearchDao;
 import com.teamgreen.greenhouse.exceptions.CustomException;
 import com.teamgreen.greenhouse.store.DbHandler;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -65,5 +69,10 @@ public class GreenhousesDbHandler  extends DbHandler {
         final String deleteQuery =
                 "UPDATE " + GREENHOUSES_TABLE + " SET " + getUpdateSyntaxFinal(IS_DISABLED) + " WHERE id = ?";
         return this.jdbcTemplate().update(deleteQuery, 1, id);
+    }
+
+    List<Greenhouse> searchGreenhouses(GreenhouseSearchDao searchDao) throws CustomException {
+        return this.namedJdbcTemplate().query(
+                searchDao.query(true), searchDao.namedParameterMap(), new GreenhouseMapper());
     }
 }
