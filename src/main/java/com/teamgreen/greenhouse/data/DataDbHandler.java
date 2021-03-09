@@ -5,6 +5,7 @@ import com.teamgreen.greenhouse.dao.mappers.DataMapper;
 import com.teamgreen.greenhouse.exceptions.CustomException;
 import com.teamgreen.greenhouse.store.DbHandler;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.util.List;
 
@@ -13,8 +14,8 @@ import static com.teamgreen.greenhouse.utils.MiscellaneousUtils.*;
 
 public class DataDbHandler extends DbHandler {
 
-    public DataDbHandler(JdbcTemplate jdbcTemplate) {
-        super(jdbcTemplate);
+    public DataDbHandler(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedJdbcTemplate) {
+        super(jdbcTemplate, namedJdbcTemplate);
     }
 
     List<Data> getData() {

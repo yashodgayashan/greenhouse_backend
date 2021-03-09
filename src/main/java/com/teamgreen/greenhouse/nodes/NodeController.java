@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.w3c.dom.ls.LSOutput;
 
@@ -27,6 +28,8 @@ public class NodeController {
 
     @Autowired
     JdbcTemplate jdbc;
+    @Autowired
+    NamedParameterJdbcTemplate namedParamJdbc;
 
     private static final Logger logger = LoggerFactory.getLogger(NodeController.class);
     private NodeDbHandler handler;
@@ -34,8 +37,8 @@ public class NodeController {
 
     @PostConstruct
     void setJdbcHandlers() {
-        handler = new NodeDbHandler(this.jdbc);
-        dataDbHandler = new DataDbHandler(this.jdbc);
+        handler = new NodeDbHandler(this.jdbc, this.namedParamJdbc);
+        dataDbHandler = new DataDbHandler(this.jdbc, this.namedParamJdbc);
     }
 
     @GetMapping("")

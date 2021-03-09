@@ -55,8 +55,8 @@ CREATE TABLE `sensors` (
 
 CREATE TABLE `node_sensors` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT,
-    `node_id` bigint(20) NOT NULL AUTO_INCREMENT,
-    `sensor_id` bigint(20) NOT NULL AUTO_INCREMENT,
+    `node_id` bigint(20) NOT NULL,
+    `sensor_id` bigint(20) NOT NULL,
     `min_value` double DEFAULT NULL,
     `max_value` double DEFAULT NULL,
     `is_deleted` tinyint(4) NOT NULL DEFAULT '0',

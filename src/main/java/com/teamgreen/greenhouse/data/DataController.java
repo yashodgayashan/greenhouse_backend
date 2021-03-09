@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
@@ -21,13 +22,15 @@ public class DataController {
 
     @Autowired
     JdbcTemplate jdbc;
+    @Autowired
+    NamedParameterJdbcTemplate namedParamJdbc;
 
     private static final Logger logger = LoggerFactory.getLogger(DataController.class);
     private DataDbHandler handler;
 
     @PostConstruct
     void setJdbcHandlers() {
-        handler = new DataDbHandler(this.jdbc);
+        handler = new DataDbHandler(this.jdbc, this.namedParamJdbc);
     }
 
 

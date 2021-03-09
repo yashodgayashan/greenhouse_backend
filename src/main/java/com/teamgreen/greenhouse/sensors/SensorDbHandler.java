@@ -5,6 +5,7 @@ import com.teamgreen.greenhouse.dao.mappers.SensorMapper;
 import com.teamgreen.greenhouse.exceptions.CustomException;
 import com.teamgreen.greenhouse.store.DbHandler;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.util.List;
 
@@ -17,8 +18,8 @@ import static com.teamgreen.greenhouse.utils.MiscellaneousUtils.getUpdateSyntaxF
 
 public class SensorDbHandler extends DbHandler {
 
-    public SensorDbHandler(JdbcTemplate jdbcTemplate) {
-        super(jdbcTemplate);
+    public SensorDbHandler(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        super(jdbcTemplate, namedParameterJdbcTemplate);
     }
 
     List<Sensor> getSensors() {

@@ -5,6 +5,7 @@ import com.teamgreen.greenhouse.dao.mappers.GreenhouseMapper;
 import com.teamgreen.greenhouse.exceptions.CustomException;
 import com.teamgreen.greenhouse.store.DbHandler;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.util.List;
 
@@ -23,8 +24,8 @@ import static com.teamgreen.greenhouse.utils.MiscellaneousUtils.getUpdateSyntax;
 
 public class GreenhousesDbHandler  extends DbHandler {
 
-    public GreenhousesDbHandler(JdbcTemplate jdbcTemplate) {
-        super(jdbcTemplate);
+    public GreenhousesDbHandler(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        super(jdbcTemplate, namedParameterJdbcTemplate);
     }
 
     List<Greenhouse> getGreenhouses() {

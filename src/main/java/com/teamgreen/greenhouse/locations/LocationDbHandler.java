@@ -2,9 +2,11 @@ package com.teamgreen.greenhouse.locations;
 
 import com.teamgreen.greenhouse.dao.Location;
 import com.teamgreen.greenhouse.dao.mappers.LocationMapper;
+import com.teamgreen.greenhouse.dao.search.dao.LocationSearchDao;
 import com.teamgreen.greenhouse.exceptions.CustomException;
 import com.teamgreen.greenhouse.store.DbHandler;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.util.List;
 
@@ -18,8 +20,8 @@ import static com.teamgreen.greenhouse.utils.MiscellaneousUtils.*;
 
 public class LocationDbHandler extends DbHandler {
 
-    public LocationDbHandler(JdbcTemplate jdbcTemplate) {
-        super(jdbcTemplate);
+    public LocationDbHandler(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedJdbcTemplate) {
+        super(jdbcTemplate, namedJdbcTemplate);
     }
 
     List<Location> getLocations() {
@@ -56,5 +58,11 @@ public class LocationDbHandler extends DbHandler {
         final String deleteQuery =
                 "UPDATE " + LOCATIONS_TABLE + " SET " + getUpdateSyntaxFinal(IS_DISABLED) + " WHERE id = ?";
         return this.jdbcTemplate().update(deleteQuery, 1, id);
+    }
+
+
+    List<Location> searchLocations(LocationSearchDao searchDao) throws CustomException {
+        return this.namedJdbcTemplate().query(
+                searchDao.query(true), searchDao.namedParameterMap(), new LocationMapper());
     }
 }
