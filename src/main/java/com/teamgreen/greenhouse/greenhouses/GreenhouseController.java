@@ -2,6 +2,8 @@ package com.teamgreen.greenhouse.greenhouses;
 
 import com.teamgreen.greenhouse.dao.Greenhouse;
 import com.teamgreen.greenhouse.exceptions.CustomException;
+import com.teamgreen.greenhouse.exceptions.MysqlHandlerException;
+import com.teamgreen.greenhouse.utils.DbUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import javax.annotation.PostConstruct;
 
 import static com.teamgreen.greenhouse.constants.Constants.*;
 import static com.teamgreen.greenhouse.constants.Constants.INTERNAL_SERVER_ERROR_MSG;
+import static com.teamgreen.greenhouse.greenhouses.Constants.GREENHOUSES_TABLE;
+import static com.teamgreen.greenhouse.locations.Constants.LOCATIONS_TABLE;
 
 @RestController
 @RequestMapping("/greenhouses")
@@ -33,10 +37,17 @@ public class GreenhouseController {
         handler = new GreenhousesDbHandler(this.jdbc, this.namedParamJdbc);
     }
 
-
     @GetMapping("")
     public ResponseEntity getGreenhouses() {
         return new ResponseEntity(handler.getGreenhouses(), HttpStatus.OK);
+    }
+
+
+    @GetMapping("/id")
+    public ResponseEntity getGreenhouseId() throws MysqlHandlerException {
+        DbUtils dbUtils = new DbUtils(this.jdbc);
+        long id = dbUtils.getLastIdFromTable(GREENHOUSES_TABLE) + 1;
+        return new ResponseEntity(id, HttpStatus.OK);
     }
 
     @GetMapping("/{greenhouse-id}")
