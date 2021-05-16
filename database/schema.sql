@@ -21,8 +21,7 @@ CREATE TABLE `greenhouses` (
     `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
     `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
-    FOREIGN KEY (`location_id`) REFERENCES locations(`id`)
+    PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `nodes` (
@@ -31,8 +30,7 @@ CREATE TABLE `nodes` (
     `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
     `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
-    FOREIGN KEY (`greenhouse_id`) REFERENCES greenhouses(`id`)
+    PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `sensors` (

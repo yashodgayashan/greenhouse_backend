@@ -66,10 +66,12 @@ public class GreenhouseController {
     }
 
     @PostMapping
-    public ResponseEntity createGreenhouse(@RequestBody Greenhouse greenhouse) {
+    public ResponseEntity createGreenhouse(@RequestBody Greenhouse greenhouse) throws MysqlHandlerException {
         int status = handler.addGreenhouse(greenhouse);
-        if (status > 0) {
-            return new ResponseEntity<>(SUCCESSFULLY_INSERTED, HttpStatus.OK);
+            if (status > 0) {
+            DbUtils dbUtils = new DbUtils(this.jdbc);
+            long id = dbUtils.getLastIdFromTable(GREENHOUSES_TABLE);
+            return new ResponseEntity<>(id, HttpStatus.OK);
         } else {
             logger.error("inserted greenhouse failed, {}", greenhouse);
             return new ResponseEntity<>(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);

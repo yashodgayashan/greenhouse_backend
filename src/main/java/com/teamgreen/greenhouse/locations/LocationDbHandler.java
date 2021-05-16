@@ -25,7 +25,8 @@ public class LocationDbHandler extends DbHandler {
     }
 
     List<Location> getLocations() {
-        final String query = "SELECT * FROM " + LOCATIONS_TABLE + " ORDER BY " + LOCATION_ID + " DESC";
+        final String query = "SELECT * FROM " + LOCATIONS_TABLE + " WHERE " + IS_DISABLED + " = 0 ORDER BY "
+                + LOCATION_ID + " DESC";
         return this.jdbcTemplate().query(query, new LocationMapper());
     }
 

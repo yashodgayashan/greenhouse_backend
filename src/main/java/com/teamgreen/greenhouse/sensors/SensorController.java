@@ -1,7 +1,10 @@
 package com.teamgreen.greenhouse.sensors;
 
 import com.teamgreen.greenhouse.dao.Sensor;
+import com.teamgreen.greenhouse.dao.search.dao.SensorSearchDao;
 import com.teamgreen.greenhouse.exceptions.CustomException;
+import com.teamgreen.greenhouse.exceptions.MysqlHandlerException;
+import com.teamgreen.greenhouse.utils.DbUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +16,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 
+import java.util.List;
+
 import static com.teamgreen.greenhouse.constants.Constants.*;
 import static com.teamgreen.greenhouse.constants.Constants.INTERNAL_SERVER_ERROR_MSG;
+import static com.teamgreen.greenhouse.sensors.Constants.SENSORS_TABLE;
 
 @RestController
 @RequestMapping("/sensors")
@@ -49,10 +55,12 @@ public class SensorController {
     }
 
     @PostMapping
-    public ResponseEntity createSensor(@RequestBody Sensor sensor) {
+    public ResponseEntity createSensor(@RequestBody Sensor sensor) throws MysqlHandlerException {
         int status = handler.addSensor(sensor);
         if (status > 0) {
-            return new ResponseEntity<>(SUCCESSFULLY_INSERTED, HttpStatus.OK);
+            DbUtils dbUtils = new DbUtils(this.jdbc);
+            long id = dbUtils.getLastIdFromTable(SENSORS_TABLE);
+            return new ResponseEntity<>(id, HttpStatus.OK);
         } else {
             logger.error("inserted sensor failed, {}", sensor);
             return new ResponseEntity<>(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -79,5 +87,17 @@ public class SensorController {
             logger.error("updating sensor failed, {}", sensorId);
             return new ResponseEntity<>(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity searchSensors(@RequestBody SensorSearchDao searchDao) {
+        List<Sensor> sensors;
+        try {
+            sensors = handler.searchSensors(searchDao);
+        } catch (CustomException e) {
+            logger.error("error occurred while searching splits\n" + e.getMessage(), e);
+            return new ResponseEntity<>(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(sensors, HttpStatus.OK);
     }
 }

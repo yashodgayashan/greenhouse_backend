@@ -33,11 +33,11 @@ public class GreenhouseSearchDao implements SearchDao{
         }
 
         if (location != null && isNotEmpty(location.getCondition()) && isNotEmpty(location.getValue())) {
-            query += addIntegerFilter(name, GREENHOUSE_LOCATION, GREENHOUSE_LOCATION_QUERY_NAME, map);
+            query += addStringFilter(name, GREENHOUSE_LOCATION, GREENHOUSE_LOCATION_QUERY_NAME, map);
         }
 
         if (locationId != null && isNotEmpty(locationId.getCondition()) && isValidInteger(locationId.getValue())) {
-            query += addStringFilter(locationId, GREENHOUSE_LOCATIONS_ID, GREENHOUSE_LOCATIONS_ID_QUERY_NAME, map);
+            query += addIntegerFilter(locationId, GREENHOUSE_LOCATIONS_ID, GREENHOUSE_LOCATIONS_ID_QUERY_NAME, map);
         }
 
         return addPostQueryClause(query, this, applySizeFilters);
@@ -57,7 +57,7 @@ public class GreenhouseSearchDao implements SearchDao{
 
     public SearchCondition getLocationId() { return locationId; }
 
-    public void setLocationId(SearchCondition locationId) { locationId = locationId; }
+    public void setLocationId(SearchCondition locationId) { this.locationId = locationId; }
 
     @Override
     public int getSize() { return size; }

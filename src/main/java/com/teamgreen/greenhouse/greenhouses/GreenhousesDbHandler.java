@@ -33,13 +33,15 @@ public class GreenhousesDbHandler  extends DbHandler {
     }
 
     List<Greenhouse> getGreenhouses() {
-        final String query = "SELECT * FROM " + GREENHOUSES_TABLE + " ORDER BY " + GREENHOUSE_ID + " DESC";
+        final String query = "SELECT * FROM " + GREENHOUSES_TABLE + " WHERE " + IS_DISABLED + " = 0 ORDER BY "
+                + GREENHOUSE_ID + " DESC";
         return this.jdbcTemplate().query(query, new GreenhouseMapper());
     }
 
     Greenhouse getGreenhouse(long id) throws CustomException {
         try {
-            final String query = "SELECT * FROM " + GREENHOUSES_TABLE + " WHERE " + GREENHOUSE_ID + " = ?";
+            final String query = "SELECT * FROM " + GREENHOUSES_TABLE + " WHERE " + GREENHOUSE_ID + " = ? AND "
+                    + IS_DISABLED + " = 0";
             return this.jdbcTemplate().queryForObject(query, new GreenhouseMapper(), id);
         } catch (Exception e) {
             throw new CustomException("There is no greenhouse found with id: " + id);

@@ -2,6 +2,7 @@ package com.teamgreen.greenhouse.sensors;
 
 import com.teamgreen.greenhouse.dao.Sensor;
 import com.teamgreen.greenhouse.dao.mappers.SensorMapper;
+import com.teamgreen.greenhouse.dao.search.dao.SensorSearchDao;
 import com.teamgreen.greenhouse.exceptions.CustomException;
 import com.teamgreen.greenhouse.store.DbHandler;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -86,4 +87,8 @@ public class SensorDbHandler extends DbHandler {
         return this.jdbcTemplate().update(deleteQuery, 1, id);
     }
 
+    List<Sensor> searchSensors(SensorSearchDao searchDao) throws CustomException {
+        return this.namedJdbcTemplate().query(
+                searchDao.query(true), searchDao.namedParameterMap(), new SensorMapper());
+    }
 }
