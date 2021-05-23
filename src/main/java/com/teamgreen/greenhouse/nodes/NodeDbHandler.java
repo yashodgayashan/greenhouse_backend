@@ -2,6 +2,7 @@ package com.teamgreen.greenhouse.nodes;
 
 import com.teamgreen.greenhouse.dao.Node;
 import com.teamgreen.greenhouse.dao.mappers.NodeMapper;
+import com.teamgreen.greenhouse.dao.search.dao.NodeSearchDao;
 import com.teamgreen.greenhouse.exceptions.CustomException;
 import com.teamgreen.greenhouse.store.DbHandler;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -56,4 +57,8 @@ public class NodeDbHandler extends DbHandler {
         return this.jdbcTemplate().update(deleteQuery, 1, id);
     }
 
+    List<Node> searchNodes(NodeSearchDao searchDao) throws CustomException {
+        return this.namedJdbcTemplate().query(
+                searchDao.query(true), searchDao.namedParameterMap(), new NodeMapper());
+    }
 }

@@ -29,7 +29,7 @@ public class GreenhouseSearchDao implements SearchDao{
         String query = "SELECT * FROM " + GREENHOUSES_TABLE + " WHERE ";
 
         if (name != null && isNotEmpty(name.getCondition()) && isNotEmpty(name.getValue())) {
-            query += addIntegerFilter(name, GREENHOUSE_NAME, GREENHOUSE_NAME_QUERY_NAME, map);
+            query += addStringFilter(name, GREENHOUSE_NAME, GREENHOUSE_NAME_QUERY_NAME, map);
         }
 
         if (location != null && isNotEmpty(location.getCondition()) && isNotEmpty(location.getValue())) {

@@ -1,9 +1,8 @@
 package com.teamgreen.greenhouse.nodeSensors;
 
-import com.teamgreen.greenhouse.dao.Node;
 import com.teamgreen.greenhouse.dao.NodeSensor;
-import com.teamgreen.greenhouse.dao.mappers.NodeMapper;
 import com.teamgreen.greenhouse.dao.mappers.NodeSensorMapper;
+import com.teamgreen.greenhouse.dao.search.dao.NodeSensorSearchDao;
 import com.teamgreen.greenhouse.exceptions.CustomException;
 import com.teamgreen.greenhouse.store.DbHandler;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,7 +11,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import java.util.List;
 
 import static com.teamgreen.greenhouse.constants.Constants.IS_DISABLED;
-import static com.teamgreen.greenhouse.nodes.Constants.*;
+
 import static com.teamgreen.greenhouse.nodeSensors.Constants.*;
 import static com.teamgreen.greenhouse.utils.MiscellaneousUtils.*;
 import static com.teamgreen.greenhouse.utils.MiscellaneousUtils.getUpdateSyntaxFinal;
@@ -73,4 +72,8 @@ public class NodeSensorDbHandler extends DbHandler {
         return this.jdbcTemplate().update(deleteQuery, 1, id);
     }
 
+    List<NodeSensor> searchNodeSensors(NodeSensorSearchDao searchDao) throws CustomException {
+        return this.namedJdbcTemplate().query(
+                searchDao.query(true), searchDao.namedParameterMap(), new NodeSensorMapper());
+    }
 }

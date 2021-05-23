@@ -2,18 +2,19 @@ package com.teamgreen.greenhouse.nodes;
 
 import com.teamgreen.greenhouse.dao.Data;
 import com.teamgreen.greenhouse.dao.Node;
+import com.teamgreen.greenhouse.dao.search.dao.NodeSearchDao;
 import com.teamgreen.greenhouse.data.DataDbHandler;
 import com.teamgreen.greenhouse.exceptions.CustomException;
+import com.teamgreen.greenhouse.exceptions.MysqlHandlerException;
+import com.teamgreen.greenhouse.utils.DbUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.web.bind.annotation.*;
-import org.w3c.dom.ls.LSOutput;
 
 import javax.annotation.PostConstruct;
 
@@ -21,6 +22,7 @@ import java.util.List;
 
 import static com.teamgreen.greenhouse.constants.Constants.*;
 import static com.teamgreen.greenhouse.constants.Constants.INTERNAL_SERVER_ERROR_MSG;
+import static com.teamgreen.greenhouse.nodes.Constants.NODES_TABLE;
 
 @RestController
 @RequestMapping("/nodes")
@@ -57,10 +59,12 @@ public class NodeController {
     }
 
     @PostMapping
-    public ResponseEntity createNode(@RequestBody Node node) {
+    public ResponseEntity createNode(@RequestBody Node node) throws MysqlHandlerException {
         int status = handler.addNode(node);
         if (status > 0) {
-            return new ResponseEntity<>(SUCCESSFULLY_INSERTED, HttpStatus.OK);
+            DbUtils dbUtils = new DbUtils(this.jdbc);
+            long id = dbUtils.getLastIdFromTable(NODES_TABLE);
+            return new ResponseEntity<>(id, HttpStatus.OK);
         } else {
             logger.error("inserted node failed, {}", node);
             return new ResponseEntity<>(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -93,5 +97,17 @@ public class NodeController {
             logger.error("updating node failed, {}", nodeId);
             return new ResponseEntity<>(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity searchNodes(@RequestBody NodeSearchDao searchDao) {
+        List<Node> nodes;
+        try {
+            nodes = handler.searchNodes(searchDao);
+        } catch (CustomException e) {
+            logger.error("error occurred while searching splits\n" + e.getMessage(), e);
+            return new ResponseEntity<>(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(nodes, HttpStatus.OK);
     }
 }

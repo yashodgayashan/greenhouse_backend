@@ -10,7 +10,7 @@ import static com.teamgreen.greenhouse.dao.search.dao.SearchDaoUtils.*;
 import static com.teamgreen.greenhouse.sensors.Constants.*;
 import static com.teamgreen.greenhouse.utils.Util.isNotEmpty;
 
-public class SensorSearchDao implements SearchDao{
+public class SensorSearchDao implements SearchDao {
 
     public static final String SENSOR_NAME_QUERY_NAME = "name";
     public static final String SENSOR_DESCRIPTION_QUERY_NAME = "description";

@@ -7,6 +7,8 @@ CREATE TABLE `locations` (
     `location` varchar(255) DEFAULT NULL,
     `imageURL` varchar(255) DEFAULT NULL,
     `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
+    `latitude` double DEFAULT NULL,
+    `longatude` double DEFAULT NULL,
     `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`)
@@ -18,6 +20,9 @@ CREATE TABLE `greenhouses` (
     `name` varchar(255) DEFAULT NULL,
     `location` varchar(255) DEFAULT NULL,
     `imageURL` varchar(255) DEFAULT NULL,
+    `length` double DEFAULT NULL,
+    `width` double DEFAULT NULL,
+    `height` double DEFAULT NULL,
     `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
     `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
