@@ -1,11 +1,8 @@
 package com.teamgreen.greenhouse.greenhouses;
 
 import com.teamgreen.greenhouse.dao.Greenhouse;
-import com.teamgreen.greenhouse.dao.Location;
 import com.teamgreen.greenhouse.dao.mappers.GreenhouseMapper;
-import com.teamgreen.greenhouse.dao.mappers.LocationMapper;
 import com.teamgreen.greenhouse.dao.search.dao.GreenhouseSearchDao;
-import com.teamgreen.greenhouse.dao.search.dao.LocationSearchDao;
 import com.teamgreen.greenhouse.exceptions.CustomException;
 import com.teamgreen.greenhouse.store.DbHandler;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,6 +17,9 @@ import static com.teamgreen.greenhouse.greenhouses.Constants.GREENHOUSE_NAME;
 import static com.teamgreen.greenhouse.greenhouses.Constants.GREENHOUSE_LOCATION;
 import static com.teamgreen.greenhouse.greenhouses.Constants.GREENHOUSE_LOCATIONS_ID;
 import static com.teamgreen.greenhouse.greenhouses.Constants.GREENHOUSE_IMAGE_URL;
+import static com.teamgreen.greenhouse.greenhouses.Constants.GREENHOUSE_LENGTH;
+import static com.teamgreen.greenhouse.greenhouses.Constants.GREENHOUSE_WIDTH;
+import static com.teamgreen.greenhouse.greenhouses.Constants.GREENHOUSE_HEIGHT;
 import static com.teamgreen.greenhouse.utils.MiscellaneousUtils.withComma;
 import static com.teamgreen.greenhouse.utils.MiscellaneousUtils.getUpdateSyntaxFinal;
 import static com.teamgreen.greenhouse.utils.MiscellaneousUtils.encapFieldWithBackTick;
@@ -51,20 +51,23 @@ public class GreenhousesDbHandler  extends DbHandler {
     int addGreenhouse(Greenhouse greenhouse)  {
         final String insertQuery =
                 "INSERT INTO " + GREENHOUSES_TABLE + " ("  + withComma(GREENHOUSE_NAME) + withComma(GREENHOUSE_LOCATION)
-                        + withComma(GREENHOUSE_LOCATIONS_ID) + encapFieldWithBackTick(GREENHOUSE_IMAGE_URL) + ") VALUES "
-                        + getStatementParams(4);
+                        + withComma(GREENHOUSE_LOCATIONS_ID) + withComma(GREENHOUSE_HEIGHT) + withComma(GREENHOUSE_LENGTH)
+                        + withComma(GREENHOUSE_WIDTH) + encapFieldWithBackTick(GREENHOUSE_IMAGE_URL) + ") VALUES "
+                        + getStatementParams(7);
 
         return this.jdbcTemplate().update(insertQuery, greenhouse.getName(), greenhouse.getLocation(),
-                greenhouse.getLocationId(), greenhouse.getImageURL());
+                greenhouse.getLocationId(), greenhouse.getHeight(), greenhouse.getLength(), greenhouse.getWidth(),
+                greenhouse.getImageURL());
     }
 
     int updateGreenhouse(long id, Greenhouse greenhouse)  {
         final String updateQuery =
                 "UPDATE " + GREENHOUSES_TABLE + " SET " + getUpdateSyntax(GREENHOUSE_NAME) + getUpdateSyntax(GREENHOUSE_LOCATION)
-                        + getUpdateSyntax(GREENHOUSE_LOCATIONS_ID) + getUpdateSyntaxFinal(GREENHOUSE_IMAGE_URL)
-                        + " WHERE id = ?";
+                        + getUpdateSyntax(GREENHOUSE_LOCATIONS_ID) +  getUpdateSyntax(GREENHOUSE_HEIGHT)
+                        + getUpdateSyntax(GREENHOUSE_LENGTH) + getUpdateSyntax(GREENHOUSE_WIDTH)
+                        + getUpdateSyntaxFinal(GREENHOUSE_IMAGE_URL) + " WHERE id = ?";
         return this.jdbcTemplate().update(updateQuery, greenhouse.getName(), greenhouse.getLocation(), greenhouse.getLocationId(),
-                greenhouse.getImageURL(), id);
+                greenhouse.getHeight(), greenhouse.getLength(), greenhouse.getWidth(), greenhouse.getImageURL(), id);
     }
 
     int deleteGreenhouse(long id) {

@@ -1,6 +1,5 @@
 package com.teamgreen.greenhouse.defects.detection;
 
-
 import com.teamgreen.greenhouse.utils.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +17,7 @@ import java.io.*;
 
 @RestController
 @RequestMapping("/defect-detection")
-public class DetectionController {
+public class DetectionDetectionController {
 
     @Autowired
     JdbcTemplate jdbc;
@@ -30,7 +29,7 @@ public class DetectionController {
     @Value("${remote.defect.url}")
     private String remoteUrl;
 
-    private static final Logger logger = LoggerFactory.getLogger(DetectionController.class);
+    private static final Logger logger = LoggerFactory.getLogger(DetectionDetectionController.class);
     FileUtils fileUtils;
 
     @PostMapping

@@ -1,9 +1,7 @@
 package com.teamgreen.greenhouse.greenhouses;
 
 import com.teamgreen.greenhouse.dao.Greenhouse;
-import com.teamgreen.greenhouse.dao.Location;
 import com.teamgreen.greenhouse.dao.search.dao.GreenhouseSearchDao;
-import com.teamgreen.greenhouse.dao.search.dao.LocationSearchDao;
 import com.teamgreen.greenhouse.exceptions.CustomException;
 import com.teamgreen.greenhouse.exceptions.MysqlHandlerException;
 import com.teamgreen.greenhouse.utils.DbUtils;
@@ -23,7 +21,6 @@ import java.util.List;
 import static com.teamgreen.greenhouse.constants.Constants.*;
 import static com.teamgreen.greenhouse.constants.Constants.INTERNAL_SERVER_ERROR_MSG;
 import static com.teamgreen.greenhouse.greenhouses.Constants.GREENHOUSES_TABLE;
-import static com.teamgreen.greenhouse.locations.Constants.LOCATIONS_TABLE;
 
 @RestController
 @RequestMapping("/greenhouses")
