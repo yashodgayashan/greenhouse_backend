@@ -8,6 +8,8 @@ public class Location {
     private String name;
     private String location;
     private String imageURL;
+    private double latitude;
+    private double longatude;
     private boolean isDisabled;
     private Timestamp modifiedAt;
     private Timestamp createdAt;
@@ -29,6 +31,14 @@ public class Location {
     public String getImageURL() { return imageURL; }
 
     public void setImageURL(String imageURL) { this.imageURL = imageURL; }
+
+    public double getLatitude() { return latitude; }
+
+    public void setLatitude(double latitude) { this.latitude = latitude; }
+
+    public double getLongatude() { return longatude; }
+
+    public void setLongatude(double longatude) { this.longatude = longatude; }
 
     public boolean isDisabled() { return isDisabled; }
 

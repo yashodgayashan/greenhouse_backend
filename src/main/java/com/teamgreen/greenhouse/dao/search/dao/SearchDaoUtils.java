@@ -49,6 +49,32 @@ public class SearchDaoUtils {
         return query;
     }
 
+    static String addIntegerFilter(SearchCondition searchCondition, String tableColumn, String fieldQueryName,
+                                   Map<String, Object> map) throws CustomException {
+        String condition = searchCondition.getCondition();
+        String value = searchCondition.getValue();
+
+        String query;
+        String colanTableField = ":" + fieldQueryName;
+        String spaceAndSpace = " AND ";
+
+        if (EQUAL.equals(condition)) {
+            query = encapFieldWithBackTick(tableColumn) + " = " + colanTableField + spaceAndSpace;
+        } else if (GREATER_THAN.equals(condition)) {
+            query = encapFieldWithBackTick(tableColumn) + " > " + colanTableField + spaceAndSpace;
+        } else if (GREATER_THAN_OR_EQUAL.equals(condition)) {
+            query = encapFieldWithBackTick(tableColumn) + " >= " + colanTableField + spaceAndSpace;
+        } else if (LESS_THAN.equals(condition)) {
+            query = encapFieldWithBackTick(tableColumn) + " < " + colanTableField + spaceAndSpace;
+        } else if (LESS_THAN_OR_EQUAL.equals(condition)) {
+            query = encapFieldWithBackTick(tableColumn) + " <= " + colanTableField + spaceAndSpace;
+        } else {
+            throw new CustomException("invalid filter condition, " + fieldQueryName + ":" + condition);
+        }
+        map.put(fieldQueryName, Integer.parseInt(value));
+        return query;
+    }
+
     public static String addIsDeletedClause(SearchDao searchDao, String query) {
         String andIsDeletedClause = " AND " + IS_DELETED + " = 0";
         String isDeletedClause = " WHERE " + IS_DELETED + " = 0";

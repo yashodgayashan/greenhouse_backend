@@ -10,4 +10,7 @@ public class Constants {
     public static final String GREENHOUSE_NAME = "name";
     public static final String GREENHOUSE_LOCATION = "location";
     public static final String GREENHOUSE_IMAGE_URL = "imageURL";
+    public static final String GREENHOUSE_HEIGHT = "height";
+    public static final String GREENHOUSE_LENGTH = "length";
+    public static final String GREENHOUSE_WIDTH = "width";
 }

@@ -1,8 +1,10 @@
 package com.teamgreen.greenhouse.nodeSensors;
 
-
 import com.teamgreen.greenhouse.dao.NodeSensor;
+import com.teamgreen.greenhouse.dao.search.dao.NodeSensorSearchDao;
 import com.teamgreen.greenhouse.exceptions.CustomException;
+import com.teamgreen.greenhouse.exceptions.MysqlHandlerException;
+import com.teamgreen.greenhouse.utils.DbUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +16,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 
+import java.util.List;
+
 import static com.teamgreen.greenhouse.constants.Constants.*;
 import static com.teamgreen.greenhouse.constants.Constants.INTERNAL_SERVER_ERROR_MSG;
+import static com.teamgreen.greenhouse.nodeSensors.Constants.NODE_SENSORS_TABLE;
 
 @RestController
 @RequestMapping("/node-sensors")
@@ -50,10 +55,12 @@ public class NodeSensorController {
     }
 
     @PostMapping
-    public ResponseEntity createNodeSensor(@RequestBody NodeSensor nodeSensor) {
+    public ResponseEntity createNodeSensor(@RequestBody NodeSensor nodeSensor) throws MysqlHandlerException {
         int status = handler.addNodeSensor(nodeSensor);
         if (status > 0) {
-            return new ResponseEntity<>(SUCCESSFULLY_INSERTED, HttpStatus.OK);
+            DbUtils dbUtils = new DbUtils(this.jdbc);
+            long id = dbUtils.getLastIdFromTable(NODE_SENSORS_TABLE);
+            return new ResponseEntity<>(id, HttpStatus.OK);
         } else {
             logger.error("inserted nodeSensor failed, {}", nodeSensor);
             return new ResponseEntity<>(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -80,5 +87,17 @@ public class NodeSensorController {
             logger.error("updating nodeSensor failed, {}", nodeSensorId);
             return new ResponseEntity<>(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity searchNodeSensors(@RequestBody NodeSensorSearchDao searchDao) {
+        List<NodeSensor> nodeSensors;
+        try {
+            nodeSensors = handler.searchNodeSensors(searchDao);
+        } catch (CustomException e) {
+            logger.error("error occurred while searching splits\n" + e.getMessage(), e);
+            return new ResponseEntity<>(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(nodeSensors, HttpStatus.OK);
     }
 }

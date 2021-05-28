@@ -7,6 +7,8 @@ CREATE TABLE `locations` (
     `location` varchar(255) DEFAULT NULL,
     `imageURL` varchar(255) DEFAULT NULL,
     `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
+    `latitude` double DEFAULT NULL,
+    `longatude` double DEFAULT NULL,
     `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`)
@@ -18,11 +20,13 @@ CREATE TABLE `greenhouses` (
     `name` varchar(255) DEFAULT NULL,
     `location` varchar(255) DEFAULT NULL,
     `imageURL` varchar(255) DEFAULT NULL,
+    `length` double DEFAULT NULL,
+    `width` double DEFAULT NULL,
+    `height` double DEFAULT NULL,
     `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
     `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
-    FOREIGN KEY (`location_id`) REFERENCES locations(`id`)
+    PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `nodes` (
@@ -31,8 +35,7 @@ CREATE TABLE `nodes` (
     `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
     `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
-    FOREIGN KEY (`greenhouse_id`) REFERENCES greenhouses(`id`)
+    PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `sensors` (
@@ -52,7 +55,6 @@ CREATE TABLE `sensors` (
     PRIMARY KEY (`id`)
 );
 
-
 CREATE TABLE `node_sensors` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT,
     `node_id` bigint(20) NOT NULL,
@@ -67,7 +69,6 @@ CREATE TABLE `node_sensors` (
     FOREIGN KEY (`sensor_id`) REFERENCES sensors(`id`)
 );
 
-
 CREATE TABLE `data` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT,
     `node_sensor_id` bigint(20) DEFAULT NULL,
@@ -77,6 +78,63 @@ CREATE TABLE `data` (
     FOREIGN KEY (`node_sensor_id`) REFERENCES node_sensors(`id`)
 );
 
+CREATE TABLE `plant_info` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) DEFAULT NULL,
+    `description` varchar(255) DEFAULT NULL,
+    `plant_duration` double DEFAULT NULL,
+    `min_temperature` double DEFAULT NULL,
+    `max_temperature` double DEFAULT NULL,
+    `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
+    `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `disease` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) DEFAULT NULL,
+    `description` varchar(255) DEFAULT NULL,
+    `plant_id` bigint(20) DEFAULT NULL,
+    `level` varchar(255) DEFAULT NULL,
+    `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
+    `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `disease_reasons` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) DEFAULT NULL,
+    `description` varchar(255) DEFAULT NULL,
+    `disease_id` bigint(20) DEFAULT NULL,
+    `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
+    `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `disease_medicines` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) DEFAULT NULL,
+    `description` varchar(255) DEFAULT NULL,
+    `disease_id` bigint(20) DEFAULT NULL,
+    `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
+    `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `disease_precausions` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) DEFAULT NULL,
+    `description` varchar(255) DEFAULT NULL,
+    `disease_id` bigint(20) DEFAULT NULL,
+    `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
+    `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+);
 
 
 

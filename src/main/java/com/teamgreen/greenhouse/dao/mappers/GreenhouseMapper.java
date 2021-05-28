@@ -14,6 +14,9 @@ import static com.teamgreen.greenhouse.greenhouses.Constants.GREENHOUSE_NAME;
 import static com.teamgreen.greenhouse.greenhouses.Constants.GREENHOUSE_LOCATIONS_ID;
 import static com.teamgreen.greenhouse.greenhouses.Constants.GREENHOUSE_LOCATION;
 import static com.teamgreen.greenhouse.greenhouses.Constants.GREENHOUSE_IMAGE_URL;
+import static com.teamgreen.greenhouse.greenhouses.Constants.GREENHOUSE_WIDTH;
+import static com.teamgreen.greenhouse.greenhouses.Constants.GREENHOUSE_HEIGHT;
+import static com.teamgreen.greenhouse.greenhouses.Constants.GREENHOUSE_LENGTH;
 
 public class GreenhouseMapper  implements RowMapper<Greenhouse> {
 
@@ -25,6 +28,9 @@ public class GreenhouseMapper  implements RowMapper<Greenhouse> {
         greenhouse.setLocationId(rs.getLong(GREENHOUSE_LOCATIONS_ID));
         greenhouse.setLocation(rs.getString(GREENHOUSE_LOCATION));
         greenhouse.setImageURL(rs.getString(GREENHOUSE_IMAGE_URL));
+        greenhouse.setLength(rs.getDouble(GREENHOUSE_LENGTH));
+        greenhouse.setWidth(rs.getDouble(GREENHOUSE_WIDTH));
+        greenhouse.setHeight(rs.getDouble(GREENHOUSE_HEIGHT));
         greenhouse.setDisabled(rs.getBoolean(IS_DISABLED));
         greenhouse.setCreatedAt(rs.getTimestamp(CREATED_AT));
         greenhouse.setModifiedAt(rs.getTimestamp(MODIFIED_AT));
