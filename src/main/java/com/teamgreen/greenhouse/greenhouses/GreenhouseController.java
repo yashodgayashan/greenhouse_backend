@@ -44,7 +44,7 @@ public class GreenhouseController {
         return new ResponseEntity(handler.getGreenhouses(), HttpStatus.OK);
     }
 
-
+    @Deprecated
     @GetMapping("/id")
     public ResponseEntity getGreenhouseId() throws MysqlHandlerException {
         DbUtils dbUtils = new DbUtils(this.jdbc);

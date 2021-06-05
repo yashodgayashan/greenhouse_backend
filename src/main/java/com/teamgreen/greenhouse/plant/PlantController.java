@@ -85,7 +85,7 @@ public class PlantController {
         }
     }
 
-    @DeleteMapping("/info/{plant-id}}")
+    @DeleteMapping("/info/{plant-id}")
     public ResponseEntity deletePlantInfo(@PathVariable("plant-id") long plantId) {
         int status = handler.deletePlantInfo(plantId);
         if (status > 0) {
