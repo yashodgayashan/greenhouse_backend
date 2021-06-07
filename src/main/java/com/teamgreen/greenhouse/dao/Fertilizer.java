@@ -1,0 +1,62 @@
+package com.teamgreen.greenhouse.dao;
+
+import java.sql.Timestamp;
+
+public class Fertilizer {
+
+    private long id;
+    private String name;
+    private String description;
+    private long plantId;    // species_id
+    private int stage;
+    private String medium;
+    private double quantity;
+    private String frequency;
+    private boolean isDisabled;
+    private Timestamp modifiedAt;
+    private Timestamp createdAt;
+
+    public long getId() { return id; }
+
+    public void setId(long id) { this.id = id; }
+
+    public String getName() { return name; }
+
+    public void setName(String name) { this.name = name; }
+
+    public String getDescription() { return description; }
+
+    public void setDescription(String description) { this.description = description; }
+
+    public long getPlantId() { return plantId; }
+
+    public void setPlantId(long plantId) { this.plantId = plantId; }
+
+    public int getStage() { return stage; }
+
+    public void setStage(int stage) { this.stage = stage; }
+
+    public String getMedium() { return medium; }
+
+    public void setMedium(String medium) { this.medium = medium; }
+
+    public double getQuantity() { return quantity; }
+
+    public void setQuantity(double quantity) { this.quantity = quantity; }
+
+    public String getFrequency() { return frequency; }
+
+    public void setFrequency(String frequency) { this.frequency = frequency; }
+
+    public boolean isDisabled() { return isDisabled; }
+
+    public void setDisabled(boolean disabled) { isDisabled = disabled; }
+
+    public Timestamp getModifiedAt() { return modifiedAt; }
+
+    public void setModifiedAt(Timestamp modifiedAt) { this.modifiedAt = modifiedAt; }
+
+    public Timestamp getCreatedAt() { return createdAt; }
+
+    public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
+}

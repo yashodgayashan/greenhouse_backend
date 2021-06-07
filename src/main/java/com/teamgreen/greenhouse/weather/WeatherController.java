@@ -35,4 +35,6 @@ public class WeatherController {
                         + "&q=7.269014,79.889694&aqi=no" , HttpMethod.GET, requestEntity, String.class);
         return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
     }
+
+
 }

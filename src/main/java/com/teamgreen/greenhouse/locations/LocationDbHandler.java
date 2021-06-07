@@ -26,13 +26,13 @@ public class LocationDbHandler extends DbHandler {
         super(jdbcTemplate, namedJdbcTemplate);
     }
 
-    List<Location> getLocations() {
+    public List<Location> getLocations() {
         final String query = "SELECT * FROM " + LOCATIONS_TABLE + " WHERE " + IS_DISABLED + " = 0 ORDER BY "
                 + LOCATION_ID + " DESC";
         return this.jdbcTemplate().query(query, new LocationMapper());
     }
 
-    Location getLocation(long id) throws CustomException {
+    public Location getLocation(long id) throws CustomException {
         try {
             final String query = "SELECT * FROM " + LOCATIONS_TABLE + " WHERE " + LOCATION_ID + " = ?";
             return this.jdbcTemplate().queryForObject(query, new LocationMapper(), id);
@@ -41,7 +41,7 @@ public class LocationDbHandler extends DbHandler {
         }
     }
 
-    int addLocation(Location location)  {
+    public int addLocation(Location location)  {
         final String insertQuery =
                 "INSERT INTO " + LOCATIONS_TABLE + " ("  + withComma(LOCATION_NAME) + withComma(LOCATION_LOCATION)
                         + withComma(LOCATION_LONGATUDE) + withComma(LOCATION_LATITUDE)
@@ -51,7 +51,7 @@ public class LocationDbHandler extends DbHandler {
                 location.getLongatude(), location.getLatitude(), location.getImageURL());
     }
 
-    int updateLocation(long id, Location location)  {
+    public int updateLocation(long id, Location location)  {
         final String updateQuery =
                 "UPDATE " + LOCATIONS_TABLE + " SET " + getUpdateSyntax(LOCATION_NAME) + getUpdateSyntax(LOCATION_LOCATION)
                         + getUpdateSyntax(LOCATION_LONGATUDE) + getUpdateSyntax(LOCATION_LATITUDE)
@@ -60,13 +60,13 @@ public class LocationDbHandler extends DbHandler {
                 location.getLongatude(), location.getLatitude(), location.getImageURL(), id);
     }
 
-    int deleteLocation(long id) {
+    public int deleteLocation(long id) {
         final String deleteQuery =
                 "UPDATE " + LOCATIONS_TABLE + " SET " + getUpdateSyntaxFinal(IS_DISABLED) + " WHERE id = ?";
         return this.jdbcTemplate().update(deleteQuery, 1, id);
     }
 
-    List<Location> searchLocations(LocationSearchDao searchDao) throws CustomException {
+    public List<Location> searchLocations(LocationSearchDao searchDao) throws CustomException {
         return this.namedJdbcTemplate().query(
                 searchDao.query(true), searchDao.namedParameterMap(), new LocationMapper());
     }
