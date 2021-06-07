@@ -5,14 +5,18 @@ import com.teamgreen.greenhouse.dao.search.dao.GreenhouseSearchDao;
 import com.teamgreen.greenhouse.exceptions.CustomException;
 import com.teamgreen.greenhouse.exceptions.MysqlHandlerException;
 import com.teamgreen.greenhouse.utils.DbUtils;
+import org.json.JSONException;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
 
@@ -30,13 +34,24 @@ public class GreenhouseController {
     JdbcTemplate jdbc;
     @Autowired
     NamedParameterJdbcTemplate namedParamJdbc;
+    @Autowired
+    RestTemplate restTemplate;
+
+    @Value("${weather.url}")
+    private String remoteUrl;
+
+    @Value("${api.key}")
+    private String apiKey;
 
     private static final Logger logger = LoggerFactory.getLogger(GreenhouseController.class);
     private GreenhousesDbHandler handler;
+    private GreenhouseUtils greenhouseUtils;
 
     @PostConstruct
     void setJdbcHandlers() {
         handler = new GreenhousesDbHandler(this.jdbc, this.namedParamJdbc);
+        greenhouseUtils = new GreenhouseUtils(this.jdbc, this.namedParamJdbc, this.restTemplate,
+                this.remoteUrl, this.apiKey);
     }
 
     @GetMapping("")
@@ -57,6 +72,16 @@ public class GreenhouseController {
         try {
             return new ResponseEntity(handler.getGreenhouse(greenhouseId), HttpStatus.OK);
         } catch (CustomException e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{greenhouse-id}/suitability")
+    public ResponseEntity getSuitablePlantsForGreenhouse(@PathVariable("greenhouse-id") long greenhouseId) {
+        try {
+            return new ResponseEntity(greenhouseUtils.getSuitablePlants(greenhouseId), HttpStatus.OK);
+        } catch (CustomException | JSONException | ParseException e) {
             logger.error(e.getMessage());
             return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
         }
