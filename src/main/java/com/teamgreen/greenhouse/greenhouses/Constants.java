@@ -13,4 +13,5 @@ public class Constants {
     public static final String GREENHOUSE_HEIGHT = "height";
     public static final String GREENHOUSE_LENGTH = "length";
     public static final String GREENHOUSE_WIDTH = "width";
+    public static final String GREENHOUSE_WATER_FLOW = "waterFlow";
 }
