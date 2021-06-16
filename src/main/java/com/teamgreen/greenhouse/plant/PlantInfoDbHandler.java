@@ -43,7 +43,7 @@ public class PlantInfoDbHandler extends DbHandler {
         super(jdbcTemplate, namedParameterJdbcTemplate);
     }
 
-    List<PlantInfo> getPlantInfo() {
+    public List<PlantInfo> getPlantInfo() {
         final String query = "SELECT * FROM " + PLANT_INFO_TABLE + " ORDER BY " + PLANT_INFO_ID + " DESC";
         return this.jdbcTemplate().query(query, new PlantInfoMapper());
     }

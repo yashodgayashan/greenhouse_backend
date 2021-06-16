@@ -3,6 +3,8 @@ package com.teamgreen.greenhouse.dao;
 public class SuitablePlant {
 
     private int plantId;
+    private String plantName;
+    private String species;
     private int noOfPlants;
     private double expectedMinHarvest;
     private double expectedMaxHarvest;
@@ -10,6 +12,14 @@ public class SuitablePlant {
     public int getPlantId() { return plantId; }
 
     public void setPlantId(int plantId) { this.plantId = plantId; }
+
+    public String getPlantName() { return plantName; }
+
+    public void setPlantName(String plantName) { this.plantName = plantName; }
+
+    public String getSpecies() { return species; }
+
+    public void setSpecies(String species) { this.species = species; }
 
     public int getNoOfPlants() { return noOfPlants; }
 

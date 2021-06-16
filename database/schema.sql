@@ -9,6 +9,8 @@ CREATE TABLE `locations` (
     `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
     `latitude` double DEFAULT NULL,
     `longatude` double DEFAULT NULL,
+    `province` varchar(255) DEFAULT NULL,
+    `district` varchar(255) DEFAULT NULL,
     `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`)
@@ -64,9 +66,7 @@ CREATE TABLE `node_sensors` (
     `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
     `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
-    FOREIGN KEY (`node_id`) REFERENCES nodes(`id`),
-    FOREIGN KEY (`sensor_id`) REFERENCES sensors(`id`)
+    PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `data` (
@@ -164,5 +164,69 @@ CREATE TABLE `disease_precausions` (
     PRIMARY KEY (`id`)
 );
 
+CREATE TABLE `greenhouse_plant` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT,
+    `plant_id` bigint(20) DEFAULT NULL,
+    `greenhouse_id` bigint(20) DEFAULT NULL,
+    `numberOfPlants` bigint(20) DEFAULT NULL,
+    `is_completed` tinyint(4) NOT NULL DEFAULT '0',
+    `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
+    `start_at` timestamp  DEFAULT NULL,
+    `ended_at` timestamp  DEFAULT NULL,
+    `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `plant` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT,
+    `greenhouse_plant_id` bigint(20) DEFAULT NULL,
+    `greenhouse_id` bigint(20) DEFAULT NULL,
+    `plant_id` bigint(20) DEFAULT NULL,
+    `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+);
+
+
+CREATE TABLE `plant_disease` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT,
+    `plant_id` bigint(20) DEFAULT NULL,
+    `plant_info_id` bigint(20) DEFAULT NULL,
+    `disease_id` bigint(20) DEFAULT NULL,
+    `solution_id` bigint(20) DEFAULT NULL,
+    `applied_date` timestamp  DEFAULT NULL,
+    `resolved_date` timestamp  DEFAULT NULL,
+    `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `plant_harvest` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT,
+    `plant_id` bigint(20) DEFAULT NULL,
+    `count` bigint(20) DEFAULT NULL,
+    `date` timestamp  DEFAULT NULL,
+    `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `crop` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT,
+    `plant_id` bigint(20) DEFAULT NULL,
+    `length` double DEFAULT NULL,
+    `height` double DEFAULT NULL,
+    `depth` double DEFAULT NULL
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `crop_info` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT,
+    `crop_id` bigint(20) DEFAULT NULL,
+    `length` double DEFAULT NULL,
+    `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+);
 
 

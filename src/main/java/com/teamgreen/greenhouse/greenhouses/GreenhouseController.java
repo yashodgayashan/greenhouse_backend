@@ -1,9 +1,14 @@
 package com.teamgreen.greenhouse.greenhouses;
 
-import com.teamgreen.greenhouse.dao.Greenhouse;
+import com.teamgreen.greenhouse.dao.*;
 import com.teamgreen.greenhouse.dao.search.dao.GreenhouseSearchDao;
 import com.teamgreen.greenhouse.exceptions.CustomException;
 import com.teamgreen.greenhouse.exceptions.MysqlHandlerException;
+import com.teamgreen.greenhouse.greenhouses.crop.CropDbHandler;
+import com.teamgreen.greenhouse.greenhouses.greenhousePlant.GreenhousePlantDbHandler;
+import com.teamgreen.greenhouse.greenhouses.plant.PlantDbHandler;
+import com.teamgreen.greenhouse.greenhouses.plantDisease.PlanDiseaseDbHandler;
+import com.teamgreen.greenhouse.greenhouses.plantHarvest.PlantHarvestDbHandler;
 import com.teamgreen.greenhouse.utils.DbUtils;
 import org.json.JSONException;
 import org.json.simple.parser.ParseException;
@@ -45,11 +50,21 @@ public class GreenhouseController {
 
     private static final Logger logger = LoggerFactory.getLogger(GreenhouseController.class);
     private GreenhousesDbHandler handler;
+    private GreenhousePlantDbHandler greenhousePlantDbHandler;
+    private PlantDbHandler plantDbHandler;
+    private PlanDiseaseDbHandler planDiseaseDbHandler;
+    private CropDbHandler cropDbHandler;
+    private PlantHarvestDbHandler plantHarvestDbHandler;
     private GreenhouseUtils greenhouseUtils;
 
     @PostConstruct
     void setJdbcHandlers() {
         handler = new GreenhousesDbHandler(this.jdbc, this.namedParamJdbc);
+        greenhousePlantDbHandler = new GreenhousePlantDbHandler(this.jdbc, this.namedParamJdbc);
+        plantDbHandler = new PlantDbHandler(this.jdbc, this.namedParamJdbc);
+        planDiseaseDbHandler = new PlanDiseaseDbHandler(this.jdbc, this.namedParamJdbc);
+        plantHarvestDbHandler = new PlantHarvestDbHandler(this.jdbc, this.namedParamJdbc);
+        cropDbHandler = new CropDbHandler(this.jdbc, this.namedParamJdbc);
         greenhouseUtils = new GreenhouseUtils(this.jdbc, this.namedParamJdbc, this.restTemplate,
                 this.remoteUrl, this.apiKey);
     }
@@ -133,5 +148,168 @@ public class GreenhouseController {
         }
         return new ResponseEntity<>(greenhouses, HttpStatus.OK);
 
+    }
+
+    @GetMapping("/{greenhouse-id}/greenhouse-plants")
+    public ResponseEntity getGreenhousePlants(@PathVariable("greenhouse-id") long greenhouseId) {
+        try {
+            return new ResponseEntity(greenhousePlantDbHandler.getGreenhousePlants(greenhouseId), HttpStatus.OK);
+        } catch (JSONException  e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/{greenhouse-id}/greenhouse-plants")
+    public ResponseEntity createGreenhousePlants(@PathVariable("greenhouse-id") long greenhouseId, @RequestBody GreenhousePlants greenhousePlants) {
+        try {
+            if (greenhousePlantDbHandler.hasActivePlant(greenhouseId)) {
+                return new ResponseEntity("Has Active plant", HttpStatus.NOT_FOUND);
+            } else {
+                return new ResponseEntity(greenhousePlantDbHandler.addPlant(greenhousePlants), HttpStatus.OK);
+            }
+        } catch (JSONException | MysqlHandlerException e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("/{greenhouse-id}/greenhouse-plants/{greenhouse-plant-id}")
+    public ResponseEntity updateGreenhousePlants(
+            @PathVariable("greenhouse-id") long greenhouseId,
+            @PathVariable("greenhouse-plant-id") long greenhousePlantId,
+            @RequestBody GreenhousePlants greenhousePlants) {
+        try {
+            return new ResponseEntity(greenhousePlantDbHandler.updateGreenhousePlant(greenhousePlantId, greenhousePlants.getEndedAt(),
+                    greenhousePlants.isCompleted()), HttpStatus.OK);
+        } catch (JSONException  e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{greenhouse-id}/greenhouse-plants/{greenhouse-plant-id}")
+    public ResponseEntity getAllPlants(@PathVariable("greenhouse-id") long greenhouseId,
+                                       @PathVariable("greenhouse-plant-id") long greenhousePlantId) {
+        try {
+            return new ResponseEntity(plantDbHandler.getPlants(greenhousePlantId), HttpStatus.OK);
+        } catch (JSONException  e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{greenhouse-id}/greenhouse-plants/{greenhouse-plant-id}/plants/{plant-id}/diseases")
+    public ResponseEntity getAllPlantDiseases(@PathVariable("greenhouse-id") long greenhouseId,
+                                              @PathVariable("greenhouse-plant-id") long greenhousePlantId,
+                                              @PathVariable("plant-id") long plantId) {
+        try {
+            return new ResponseEntity(planDiseaseDbHandler.getPlantDiseases(plantId), HttpStatus.OK);
+        } catch (JSONException  e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/{greenhouse-id}/greenhouse-plants/{greenhouse-plant-id}/plants/{plant-id}/diseases")
+    public ResponseEntity createPlantDiseases(@PathVariable("greenhouse-id") long greenhouseId,
+                                              @PathVariable("greenhouse-plant-id") long greenhousePlantId,
+                                              @PathVariable("plant-id") long plantId,
+                                              @RequestBody PlantDisease plantDisease) {
+        try {
+            return new ResponseEntity(planDiseaseDbHandler.addPlantDisease(plantDisease), HttpStatus.OK);
+        } catch (JSONException  e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("/{greenhouse-id}/greenhouse-plants/{greenhouse-plant-id}/plants/{plant-id}/diseases/{plant-diseaseId}")
+    public ResponseEntity updatePlantDiseases(@PathVariable("greenhouse-id") long greenhouseId, @PathVariable("greenhouse-plant-id") long greenhousePlantId,
+                                              @PathVariable("plant-diseaseId") long plantDiseaseId, @RequestBody PlantDisease plantDisease) {
+        try {
+            return new ResponseEntity(planDiseaseDbHandler.updatePlantDisease(plantDiseaseId, plantDisease), HttpStatus.OK);
+        } catch (JSONException  e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    // Plant Harvest
+    @GetMapping("/{greenhouse-id}/greenhouse-plants/{greenhouse-plant-id}/plants/{plant-id}/harvest")
+    public ResponseEntity getAllPlantHarvest(@PathVariable("greenhouse-id") long greenhouseId,
+                                              @PathVariable("greenhouse-plant-id") long greenhousePlantId,
+                                              @PathVariable("plant-id") long plantId) {
+        try {
+            return new ResponseEntity(plantHarvestDbHandler.getPlantHarvest(plantId), HttpStatus.OK);
+        } catch (JSONException  e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/{greenhouse-id}/greenhouse-plants/{greenhouse-plant-id}/plants/{plant-id}/harvests")
+    public ResponseEntity createPlantHarvest(@PathVariable("greenhouse-id") long greenhouseId,
+                                              @PathVariable("greenhouse-plant-id") long greenhousePlantId,
+                                              @PathVariable("plant-id") long plantId,
+                                              @RequestBody PlantHarvest plantHarvest) {
+        try {
+            return new ResponseEntity(plantHarvestDbHandler.addPlantHarvest(plantHarvest), HttpStatus.OK);
+        } catch (JSONException  e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    // Crop
+    @GetMapping("/{greenhouse-id}/greenhouse-plants/{greenhouse-plant-id}/plants/{plant-id}/crops")
+    public ResponseEntity getAllPlantCrops(@PathVariable("greenhouse-id") long greenhouseId,
+                                             @PathVariable("greenhouse-plant-id") long greenhousePlantId,
+                                             @PathVariable("plant-id") long plantId) {
+        try {
+            return new ResponseEntity(cropDbHandler.getCrops(plantId), HttpStatus.OK);
+        } catch (JSONException  e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/{greenhouse-id}/greenhouse-plants/{greenhouse-plant-id}/plants/{plant-id}/crops")
+    public ResponseEntity createCrop(@PathVariable("greenhouse-id") long greenhouseId,
+                                             @PathVariable("greenhouse-plant-id") long greenhousePlantId,
+                                             @PathVariable("plant-id") long plantId,
+                                             @RequestBody Crop crop) {
+        try {
+            return new ResponseEntity(cropDbHandler.createCrop(crop), HttpStatus.OK);
+        } catch (JSONException  e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{greenhouse-id}/greenhouse-plants/{greenhouse-plant-id}/plants/{plant-id}/crops/{crop-id}")
+    public ResponseEntity getAllPlantCropInfo(@PathVariable("greenhouse-id") long greenhouseId,
+                                           @PathVariable("greenhouse-plant-id") long greenhousePlantId,
+                                           @PathVariable("plant-id") long plantId,
+                                              @PathVariable("crop-id") long cropId) {
+        try {
+            return new ResponseEntity(cropDbHandler.getCropInfo(cropId), HttpStatus.OK);
+        } catch (JSONException  e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/{greenhouse-id}/greenhouse-plants/{greenhouse-plant-id}/plants/{plant-id}/crops/{crop-id}")
+    public ResponseEntity createCropInfo(@PathVariable("greenhouse-id") long greenhouseId,
+                                     @PathVariable("greenhouse-plant-id") long greenhousePlantId,
+                                     @PathVariable("plant-id") long plantId, @PathVariable("crop-id") long cropId,
+                                     @RequestBody CropInfo cropInfo) {
+        try {
+            return new ResponseEntity(cropDbHandler.createCropInfo(cropInfo), HttpStatus.OK);
+        } catch (JSONException  e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 }
