@@ -23,6 +23,7 @@ CREATE TABLE `greenhouses` (
     `length` double DEFAULT NULL,
     `width` double DEFAULT NULL,
     `height` double DEFAULT NULL,
+    `waterFlow` varchar(45) DEFAULT NULL,
     `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
     `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
