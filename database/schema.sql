@@ -23,6 +23,7 @@ CREATE TABLE `greenhouses` (
     `length` double DEFAULT NULL,
     `width` double DEFAULT NULL,
     `height` double DEFAULT NULL,
+    `waterFlow` varchar(45) DEFAULT NULL,
     `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
     `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -57,16 +58,14 @@ CREATE TABLE `sensors` (
 
 CREATE TABLE `node_sensors` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT,
-    `node_id` bigint(20) NOT NULL,
-    `sensor_id` bigint(20) NOT NULL,
+    `node_id` bigint(20) DEFAULT NULL,
+    `sensor_id` bigint(20) DEFAULT NULL,
     `min_value` double DEFAULT NULL,
     `max_value` double DEFAULT NULL,
     `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
     `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
-    FOREIGN KEY (`node_id`) REFERENCES nodes(`id`),
-    FOREIGN KEY (`sensor_id`) REFERENCES sensors(`id`)
+    PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `data` (

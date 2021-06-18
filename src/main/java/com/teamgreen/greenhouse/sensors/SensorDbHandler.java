@@ -28,7 +28,7 @@ public class SensorDbHandler extends DbHandler {
         return this.jdbcTemplate().query(query, new SensorMapper());
     }
 
-    Sensor getSensor(long id) throws CustomException {
+    public Sensor getSensor(long id) throws CustomException {
         try {
             final String query = "SELECT * FROM " + SENSORS_TABLE + " WHERE " + SENSOR_ID + " = ?";
             return this.jdbcTemplate().queryForObject(query, new SensorMapper(), id);

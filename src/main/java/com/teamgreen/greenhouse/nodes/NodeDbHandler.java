@@ -28,6 +28,12 @@ public class NodeDbHandler extends DbHandler {
         return this.jdbcTemplate().query(query, new NodeMapper());
     }
 
+    public List<Node> getNodesByGreenhouseId(long greenhouseId) {
+        final String query = "SELECT * FROM " + NODES_TABLE + " WHERE " + NODE_GREENHOUSE_ID
+                + " = ? ORDER BY " + NODE_ID + " DESC";
+        return this.jdbcTemplate().query(query, new NodeMapper(), greenhouseId);
+    }
+
     Node getNode(long id) throws CustomException {
         try {
             final String query = "SELECT * FROM " + NODES_TABLE + " WHERE " + NODE_ID + " = ?";

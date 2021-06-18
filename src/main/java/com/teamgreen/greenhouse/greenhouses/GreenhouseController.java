@@ -1,10 +1,14 @@
 package com.teamgreen.greenhouse.greenhouses;
 
+import com.teamgreen.greenhouse.dao.Data;
+import com.teamgreen.greenhouse.dao.FormattedData;
 import com.teamgreen.greenhouse.dao.Greenhouse;
+import com.teamgreen.greenhouse.dao.Node;
 import com.teamgreen.greenhouse.dao.search.dao.GreenhouseSearchDao;
 import com.teamgreen.greenhouse.exceptions.CustomException;
 import com.teamgreen.greenhouse.exceptions.MysqlHandlerException;
 import com.teamgreen.greenhouse.utils.DbUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
@@ -20,6 +24,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
 
+import java.sql.Date;
 import java.util.List;
 
 import static com.teamgreen.greenhouse.constants.Constants.*;
@@ -117,7 +122,7 @@ public class GreenhouseController {
         if (status > 0) {
             return new ResponseEntity<>(SUCCESSFULLY_REMOVED, HttpStatus.OK);
         } else {
-            logger.error("updating greenhouse failed, {}", greenhouseId);
+            logger.error("deleting greenhouse failed, {}", greenhouseId);
             return new ResponseEntity<>(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -132,6 +137,17 @@ public class GreenhouseController {
             return new ResponseEntity<>(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(greenhouses, HttpStatus.OK);
+    }
 
+    @GetMapping("/{greenhouse-id}/data")
+    public ResponseEntity getGreenhouseData(@PathVariable("greenhouse-id") long greenhouseId, @RequestParam Date startDate, @RequestParam Date endDate) {
+        List<FormattedData> greenhouseData;
+        try {
+            greenhouseData = greenhouseUtils.getGreenhouseData(greenhouseId, startDate, endDate);
+        } catch (Exception e) {
+            logger.error("error occurred while getting greenhouse data\n" + e.getMessage(), e);
+            return new ResponseEntity<>(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(greenhouseData, HttpStatus.OK);
     }
 }
