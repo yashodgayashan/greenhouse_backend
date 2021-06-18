@@ -27,6 +27,12 @@ public class NodeSensorDbHandler extends DbHandler {
         return this.jdbcTemplate().query(query, new NodeSensorMapper());
     }
 
+    public List<NodeSensor> getNodeSensorsByNodeId(long nodeId) {
+        final String query = "SELECT * FROM " + NODE_SENSORS_TABLE + " WHERE " + NODE_SENSOR_NODE_ID
+                + " =? ORDER BY " + NODE_SENSOR_ID + " DESC";
+        return this.jdbcTemplate().query(query, new NodeSensorMapper(), nodeId);
+    }
+
     NodeSensor getNodeSensor(long id) throws CustomException {
         try {
             final String query = "SELECT * FROM " + NODE_SENSORS_TABLE + " WHERE " + NODE_SENSOR_ID + " = ?";

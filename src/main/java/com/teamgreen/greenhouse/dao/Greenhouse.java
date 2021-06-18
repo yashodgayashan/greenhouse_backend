@@ -10,6 +10,7 @@ public class Greenhouse {
     private double length;
     private double width;
     private double height;
+    private String waterFlow;
     private long locationId;
     private String imageURL;
     private boolean isDisabled;
@@ -39,6 +40,10 @@ public class Greenhouse {
     public double getHeight() { return height; }
 
     public void setHeight(double height) { this.height = height; }
+
+    public String getWaterFlow() { return waterFlow; }
+
+    public void setWaterFlow(String waterFlow) { this.waterFlow = waterFlow; }
 
     public long getLocationId() { return locationId; }
 
