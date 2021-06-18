@@ -45,7 +45,6 @@ public class WeatherUtils {
         double maxTemp = 0.0;
 
         for (WeatherSummaryData data : weatherSummaryData) {
-            System.out.println(data.getMinTemp());
             minTemp += data.getMinTemp();
             maxTemp += data.getMaxTemp();
         }
