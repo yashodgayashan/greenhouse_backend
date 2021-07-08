@@ -31,6 +31,22 @@ public class FileUtils {
         return requestEntity;
     }
 
+    public HttpEntity constructIdentificationRequestEntity(MultipartFile multipartFile, int distance) throws IOException {
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        body.add("image", convertMultipartFileToFileSystemResource(multipartFile));
+        body.add("distance", distance);
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+        return requestEntity;
+    }
+
+    public HttpEntity calculateLength(MultipartFile multipartFile, int distance) throws IOException {
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        body.add("image", convertMultipartFileToFileSystemResource(multipartFile));
+        body.add("distance", distance);
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+        return requestEntity;
+    }
+
     private File convertMultiPartToFile(MultipartFile file ) throws IOException
     {
         File convFile = new File( file.getOriginalFilename() );

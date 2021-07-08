@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 @RestController
@@ -44,6 +46,28 @@ public class HarvestingController {
         HttpEntity<MultiValueMap<String, Object>> requestEntity = fileUtils.constructHarvestRequestEntity(file);
         restTemplate.getMessageConverters().add(new ByteArrayHttpMessageConverter());
         ResponseEntity<byte[]> response = this.restTemplate.exchange(remoteUrl , HttpMethod.POST, requestEntity, byte[].class);
+        return response;
+    }
+
+    @PostMapping("/identify")
+    public ResponseEntity identify(@RequestParam("file") MultipartFile file, @RequestParam("distance") Integer distance) throws IOException {
+        System.out.println("harvest identification route");
+        System.out.println(distance);
+        fileUtils = new FileUtils();
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = fileUtils.constructIdentificationRequestEntity(file, distance);
+        restTemplate.getMessageConverters().add(new ByteArrayHttpMessageConverter());
+        ResponseEntity<byte[]> response = this.restTemplate.exchange(remoteUrl + "/identify", HttpMethod.POST, requestEntity, byte[].class);
+        return response;
+    }
+
+    @PostMapping("/calculateLength")
+    public ResponseEntity calculateLength(@RequestParam("file") MultipartFile file, @RequestParam("distance") Integer distance) throws IOException {
+        System.out.println("calculate length route");
+        System.out.println(distance);
+        fileUtils = new FileUtils();
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = fileUtils.calculateLength(file, distance);
+        restTemplate.getMessageConverters().add(new ByteArrayHttpMessageConverter());
+        ResponseEntity<byte[]> response = this.restTemplate.exchange(remoteUrl + "/calculateLength", HttpMethod.POST, requestEntity, byte[].class);
         return response;
     }
 }
