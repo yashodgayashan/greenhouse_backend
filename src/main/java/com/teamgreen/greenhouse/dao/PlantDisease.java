@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 public class PlantDisease {
     private long id;
     private long plantId;
+    private long plantInfoId;
     private long diseaseId;
     private long solutionId;
     private Timestamp appliedDate;
@@ -19,6 +20,14 @@ public class PlantDisease {
     public long getPlantId() { return plantId; }
 
     public void setPlantId(long plantId) { this.plantId = plantId; }
+
+    public long getPlantInfoId() {
+        return plantInfoId;
+    }
+
+    public void setPlantInfoId(long plantInfoId) {
+        this.plantInfoId = plantInfoId;
+    }
 
     public long getDiseaseId() { return diseaseId; }
 

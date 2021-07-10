@@ -1,4 +1,4 @@
-package com.teamgreen.greenhouse.plant;
+package com.teamgreen.greenhouse.plantDefect;
 
 public class Constants {
 
