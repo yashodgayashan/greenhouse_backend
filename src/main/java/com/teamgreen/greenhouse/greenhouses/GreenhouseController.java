@@ -167,6 +167,16 @@ public class GreenhouseController {
         return new ResponseEntity<>(greenhouseData, HttpStatus.OK);
     }
 
+    @GetMapping("/{greenhouse-id}/plant_diseases")
+    public ResponseEntity getGreenhousePlantDisease(@PathVariable("greenhouse-id") long greenhouseId) {
+         try {
+            return new ResponseEntity<>(greenhousePlantDbHandler.getGreenhouseDiseases(greenhouseId), HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("error occurred while getting greenhouse data\n" + e.getMessage(), e);
+            return new ResponseEntity<>(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/{greenhouse-id}/greenhouse-plants")
     public ResponseEntity getGreenhousePlants(@PathVariable("greenhouse-id") long greenhouseId) {
         try {
@@ -234,6 +244,7 @@ public class GreenhouseController {
                                               @PathVariable("plant-id") long plantId,
                                               @RequestBody PlantDisease plantDisease) {
         try {
+            System.out.println("Hello");
             return new ResponseEntity(planDiseaseDbHandler.addPlantDisease(plantDisease), HttpStatus.OK);
         } catch (JSONException  e) {
             logger.error(e.getMessage());

@@ -28,7 +28,9 @@ public class PlanDiseaseDbHandler extends DbHandler {
                 "INSERT INTO " + PLANT_DISEASES_TABLE + " ("  + withComma(PLANT_DISEASES_PLANT_ID) + withComma(PLANT_DISEASES_DISEASE_ID)
                         + encapFieldWithBackTick(PLANT_DISEASES_SOLUTION_ID) + ") VALUES "
                         + getStatementParams(3);
-
+        System.out.println(plantDisease.getPlantId());
+        System.out.println(plantDisease.getDiseaseId());
+        System.out.println(plantDisease.getSolutionId());
         return this.jdbcTemplate().update(insertQuery, plantDisease.getPlantId(), plantDisease.getDiseaseId(),
                 plantDisease.getSolutionId());
     }
