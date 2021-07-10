@@ -21,9 +21,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Optional;
 
 import static com.teamgreen.greenhouse.constants.Constants.SUCCESSFULLY_UPDATED;
 import static com.teamgreen.greenhouse.constants.Constants.SUCCESSFULLY_REMOVED;
@@ -53,9 +55,13 @@ public class DefectsController {
     }
 
     @GetMapping("/{defect-id}")
-    public ResponseEntity getDefect(@PathVariable("defect-id") long defectId) {
+    public ResponseEntity getDefect(@PathVariable("defect-id") long defectId, @RequestParam Optional<String> name) {
         try {
-            return new ResponseEntity(handler.getDisease(defectId), HttpStatus.OK);
+            if (name.isPresent()) {
+                return new ResponseEntity(handler.getDisease(name.get()), HttpStatus.OK);
+            } else {
+                return new ResponseEntity(handler.getDisease(defectId), HttpStatus.OK);
+            }
         } catch (CustomException e) {
             logger.error(e.getMessage());
             return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);

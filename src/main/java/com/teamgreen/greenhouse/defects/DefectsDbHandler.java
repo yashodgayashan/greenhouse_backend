@@ -44,6 +44,15 @@ public class DefectsDbHandler extends DbHandler {
         }
     }
 
+    Disease getDisease(String name) throws CustomException {
+        try {
+            final String query = "SELECT * FROM " + DISEASE_TABLE + " WHERE " + NAME + " = ?";
+            return this.jdbcTemplate().queryForObject(query, new DiseaseMapper(), name);
+        } catch (Exception e) {
+            throw new CustomException("There is no disease found with id: " + name);
+        }
+    }
+
     int addDisease(Disease disease)  {
         final String insertQuery =
                 "INSERT INTO " + DISEASE_TABLE + " ("  + withComma(NAME) + withComma(DESCRIPTION)
