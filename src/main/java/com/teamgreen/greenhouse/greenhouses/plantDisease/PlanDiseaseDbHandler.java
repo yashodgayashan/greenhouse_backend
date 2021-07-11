@@ -18,9 +18,9 @@ public class PlanDiseaseDbHandler extends DbHandler {
     }
 
     public List<PlantDisease> getPlantDiseases(long plantId) {
-        final String query = "SELECT * FROM " + PLANT_DISEASES_TABLE + " WHERE "
-                + PLANT_DISEASES_PLANT_ID + " = ? ORDER BY " + PLANT_DISEASES_ID + " DESC";
-        return this.jdbcTemplate().query(query, new PlanDiseaseMapper(), plantId);
+        final String query = "SELECT * FROM `plant_disease` WHERE plant_id = ? ORDER BY " + PLANT_DISEASES_ID + " DESC";
+        List<PlantDisease> diseases =  this.jdbcTemplate().query(query, new PlanDiseaseMapper(), plantId);
+        return diseases;
     }
 
     public int addPlantDisease(PlantDisease plantDisease)  {

@@ -44,13 +44,15 @@ public class GreenhousePlantDbHandler  extends DbHandler {
         String getGreenhousePlantId = "Select id from " + GREENHOUSE_PLANTS_TABLE + " WHERE " + GREENHOUSE_PLANTS_GREENHOUSE_ID + " = ?";
         Integer greenhousePlantId = this.jdbcTemplate().queryForObject(getGreenhousePlantId, new Object[] {greenhouseId}, Integer.class);
         String getPlantIds = "Select id from plant where `greenhouse_plant_id` = ?";
-        List<Integer> plantIds = this.jdbcTemplate().query(getPlantIds, new Object[] {greenhousePlantId}, Integer.class);
+        List<Integer> plantIds = this.jdbcTemplate().queryForList(getPlantIds, new Object[] {greenhousePlantId}, Integer.class);
         List<PlantDisease> plantDiseases = new ArrayList<>();
         for (Integer plantId : plantIds) {
+            
             List<PlantDisease> plantDiseaseSet = planDiseaseDbHandler.getPlantDiseases(plantId);
             if (plantDiseaseSet.size() == 0) {
                 continue;
             } else {
+                System.out.println(plantId);
                 plantDiseases.addAll(plantDiseaseSet);
             }
         }
